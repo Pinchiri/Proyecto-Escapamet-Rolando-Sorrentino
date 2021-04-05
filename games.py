@@ -19,6 +19,8 @@ def set_inventory():
     return inventory
 
 inventory = Inventory()
+
+
 #JUEGOS DEL RECTORADO
 
 #Función para hacer el juego del saman un objeto
@@ -31,11 +33,13 @@ def set_saman_game():
 
     return Game(gamename, reward, rules, requirement)
 
+saman = set_saman_game()
+
 #Juego Samán
 def saman_game(inventory):
      
     while True:   
-        saman = set_saman_game()
+        
                 
         questions = response_json[2]["objects"][0]["game"]["questions"]
             
@@ -84,8 +88,7 @@ def saman_game(inventory):
         else:
             print("\nHas fallado! ojo pelao con pisar el Samán")
             break
-        
-        
+
 #Función para hacer quizizz un objeto
 def set_quizizz():
     
@@ -95,11 +98,11 @@ def set_quizizz():
     requirement = response_json[2]["objects"][1]["game"]["requirement"]
 
     return Game(gamename, reward, rules, requirement)
-    
+
+quizizz = set_quizizz()   
+
 def quizizz(inventory):
         
-    quizizz = set_quizizz()
-
     #Preguntas
     question = response_json[2]["objects"][1]["game"]["questions"][random.randint(0,2)]
     question_displayed = question["question"]      
@@ -168,6 +171,177 @@ def quizizz(inventory):
     |--------------------------------------------------------------------------------|
     """)
             continue
+        
+#Creando juego de memoria como un objeto
+
+def set_memory():
+    
+    gamename = response_json[2]["objects"][2]["game"]["name"]
+    reward = response_json[2]["objects"][2]["game"]["award"]
+    rules = response_json[2]["objects"][2]["game"]["rules"]
+    requirement = response_json[2]["objects"][2]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+memory = set_memory()
+
+def memory_game(inventory):
+
+    inventory.add_obj(memory.reward)
+    
+    print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        EXCELENTE! Has vencido la memoria!
+        
+        Has obtenido {memory.reward}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)
+    
+
+#JUEGOS BIBLIOTECA
+
+def set_criptograma():
+    
+    gamename = response_json[1]["objects"][2]["game"]["name"]
+    reward = response_json[1]["objects"][2]["game"]["award"]
+    rules = response_json[1]["objects"][2]["game"]["rules"]
+    requirement = response_json[1]["objects"][2]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+cryptogram = set_criptograma()
+
+def cryptogram_game():
+    
+    question = response_json[1]["objects"][2]["game"]["questions"][random.randint(0,2)]
+    question_displayed = question["question"]
+    question_answer = question["answer"]
+    
+    question_1 = response_json[1]["objects"][2]["game"]["questions"][0]["question"]   
+    question_2 = response_json[1]["objects"][2]["game"]["questions"][1]["question"]
+    question_3 = response_json[1]["objects"][2]["game"]["questions"][2]["question"]
+    
+    
+    
+    
+    show_question = f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        Juguemos al {cryptogram.gamename}! 
+        ({cryptogram.rules}),   
+                 
+                    {question_displayed}           
+                    
+    |  Si quieres una pista ingresa "p"                                              |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    ------> """
+    
+    
+    
+#Creando ahorcado como un objeto    
+def set_ahorcado():
+    
+    gamename = response_json[1]["objects"][0]["game"]["name"]
+    reward = response_json[1]["objects"][0]["game"]["award"]
+    rules = response_json[1]["objects"][0]["game"]["rules"]
+    requirement = response_json[1]["objects"][0]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+ahorcado = set_ahorcado()
+
+#Juego Ahorcado
+def ahorcado_func(question_answer):
+    
+    word = []
+    hidden = []
+    
+    for l in question_answer:
+        word.append(l)
+        hidden.append("_")
+    
+    while True:
+        
+        if "_" in hidden:
+            
+            player_answer = input("""
+    |--------------------------------------------------------------------------------|
+        Ingresa una letra                                              
+    |--------------------------------------------------------------------------------|
+    -------> """)
+            
+            if player_answer in word:
+                print("""
+    |--------------------------------------------------------------------------------|
+        EXCELENTE! letra correcta
+    |--------------------------------------------------------------------------------|
+    """)
+                for i, l in enumerate(word):
+                    if player_answer == l:
+                        hidden[i] = player_answer
+                        print(f"""
+    |--------------------------------------------------------------------------------|
+        {hidden}
+    |--------------------------------------------------------------------------------|
+    """)
+            else:
+                print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        WRONG! letra incorrecta
+        
+        {ahorcado.rules}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)         
+        else:
+            print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        EXCELENTE! Has vencido al {ahorcado.gamename}
+        
+        Has obtenido {ahorcado.reward}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)  
+            inventory.add_obj(ahorcado.reward)
+            break    
+                
+    
+def ahorcado_game(inventory):
+    
+    question = response_json[1]["objects"][0]["game"]["questions"][random.randint(0,2)]
+    question_displayed = question["question"]
+    question_answer = question["answer"]
+    question_1 = response_json[1]["objects"][0]["game"]["questions"][0]["question"]   
+    question_2 = response_json[1]["objects"][0]["game"]["questions"][1]["question"]
+    question_3 = response_json[1]["objects"][0]["game"]["questions"][2]["question"]
+        
+    show_question = f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        Juguemos al {ahorcado.gamename}! 
+        ({ahorcado.rules}),  
+        La primera letra de la palabra es en mayúsculas! 
+                 
+                    {question_displayed}           
+                    
+    |  Si quieres una pista ingresa "p"                                              |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    ------> """
+    
+    print(show_question)
+    
+    ahorcado_func(question_answer)
+       
+
             
 
 #JUEGOS DEL LABORATORIO
@@ -181,12 +355,10 @@ def set_adivinanza():
     
     return Game(gamename, reward, rules, requirement)
 
+adivinanza = set_adivinanza()
+
 #Adivinanza
-def adivinanza():
-    
-    adivinanza = set_adivinanza()
-    
-    inventory = Inventory()
+def adivinanza_game(inventory):
     
     gamename = response_json[0]["objects"][2]["game"]["name"]
     reward = response_json[0]["objects"][2]["game"]["award"]
@@ -261,13 +433,11 @@ def set_alphabet_soup():
     requirement = response_json[0]["objects"][0]["game"]["requirement"]
     
     return Game(gamename, reward, rules, requirement)
-    
+
+soup = set_alphabet_soup()
+   
 #Función de la sopa de letras
-def alphabet_soup(): 
-    
-    inventory = Inventory()
-    
-    soup = set_alphabet_soup()
+def alphabet_soup(inventory): 
 
     #Preguntas
     question = response_json[0]["objects"][0]["game"]["questions"][random.randint(0,2)]
@@ -420,3 +590,76 @@ def alphabet_soup():
         |--------------------------------------------------------------------------------|
         """)
                 continue  
+            
+
+#JUEGOS PASILLO LABORATORIO
+
+def set_boolean_logic():
+    
+    gamename = response_json[3]["objects"][0]["game"]["name"]
+    reward = response_json[3]["objects"][0]["game"]["award"]
+    rules = response_json[3]["objects"][0]["game"]["rules"]
+    requirement = response_json[3]["objects"][0]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+door_hallway = set_boolean_logic()
+
+#Juego Lógica Booleana
+def boolean_logic(inventory):
+    
+    #Preguntas
+    question = response_json[3]["objects"][0]["game"]["questions"][random.randint(0,1)]
+    question_displayed = question["question"]
+  
+    #Respuestas
+    question_answer = question["answer"].lower()
+                 
+    show_question = f"""    
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+       Juguemos a la {door_hallway.gamename}! 
+       ({door_hallway.rules}) 
+                    
+        Responde la siguiente pregunta:
+
+                {question_displayed}
+                                
+    |  Si quieres una pista ingresa "p"                                              |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    ------> """
+    
+    while True:
+        
+        answer = input(show_question).lower()
+        
+        if answer == question_answer:
+            
+            inventory.add_obj(door_hallway.reward)
+                    
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            EXCELENTE! Respuesta correcta!
+            
+            Has obtenido {door_hallway.reward}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            break
+        
+        else:
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            WRONG! Respuesta incorrecta
+            
+            {door_hallway.rules}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            continue
+        
