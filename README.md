@@ -1,2 +1,2 @@
 # Proyecto-Escapamet-Rolando-Sorrentino
-Juego Escapamet,
+Juego Escapamet, creado por Rolando Sorrentino
