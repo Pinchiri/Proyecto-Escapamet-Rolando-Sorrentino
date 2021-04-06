@@ -101,7 +101,7 @@ def set_quizizz():
 
 quizizz = set_quizizz()   
 
-def quizizz(inventory):
+def quizizz_game(inventory):
         
     #Preguntas
     question = response_json[2]["objects"][1]["game"]["questions"][random.randint(0,2)]
@@ -203,7 +203,36 @@ def memory_game(inventory):
 
 #JUEGOS BIBLIOTECA
 
-def set_criptograma():
+#Creando el juego de derivada como un objeto
+def set_derivada():
+    
+    gamename = response_json[1]["objects"][1]["game"]["name"]
+    reward = response_json[1]["objects"][1]["game"]["award"]
+    rules = response_json[1]["objects"][1]["game"]["rules"]
+    requirement = response_json[1]["objects"][1]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+derivada = set_derivada()
+
+#Juego cálculo de derivada
+def derivada_game(inventory):
+    
+    inventory.add_obj(derivada.reward)
+    
+    print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        EXCELENTE! Respuesta correcta!
+        
+        Has obtenido {derivada.reward}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)
+
+#Creando criptograma como un objeto    
+def set_cryptogram():
     
     gamename = response_json[1]["objects"][2]["game"]["name"]
     reward = response_json[1]["objects"][2]["game"]["award"]
@@ -212,9 +241,9 @@ def set_criptograma():
     
     return Game(gamename, reward, rules, requirement)
 
-cryptogram = set_criptograma()
+cryptogram = set_cryptogram()
 
-def cryptogram_game():
+def cryptogram_game(inventory):
     
     question = response_json[1]["objects"][2]["game"]["questions"][random.randint(0,2)]
     question_displayed = question["question"]
@@ -223,9 +252,6 @@ def cryptogram_game():
     question_1 = response_json[1]["objects"][2]["game"]["questions"][0]["question"]   
     question_2 = response_json[1]["objects"][2]["game"]["questions"][1]["question"]
     question_3 = response_json[1]["objects"][2]["game"]["questions"][2]["question"]
-    
-    
-    
     
     show_question = f"""
     |--------------------------------------------------------------------------------|
@@ -475,9 +501,9 @@ def alphabet_soup(inventory):
         
         if player_answers == question_answers1 or player_answers == question_answers2 or player_answers == question_answers3:
                    
-                Inventory.add_obj(inventory, soup.reward)
+            Inventory.add_obj(inventory, soup.reward)
                 
-                print(f"""
+            print(f"""
         |--------------------------------------------------------------------------------|
         |                                                                                |
             EXCELENTE! Has vencido la sopa de letras!
@@ -486,9 +512,8 @@ def alphabet_soup(inventory):
         |                                                                                |
         |                                                                                |
         |--------------------------------------------------------------------------------|
-        """)
-                
-                break    
+        """)    
+            break    
             
         #Si random pickea la pregunta 1
         if question == question_1:
@@ -509,6 +534,10 @@ def alphabet_soup(inventory):
                 player_answers.append(answer)
                 print(player_answers)
                 continue
+            
+            elif answer == "s":
+                inventory.add_obj(soup.reward)
+                break
             
             else:
                 
@@ -544,6 +573,11 @@ def alphabet_soup(inventory):
                 player_answers.append(answer)
                 print(player_answers)
                 continue
+            
+            elif answer == "s":
+                inventory.add_obj(soup.reward)
+                break
+            
             else:
                 
                 print(f"""
@@ -561,6 +595,7 @@ def alphabet_soup(inventory):
         # -------------------------------------------------------------------------------------   
         #Si random pickea la pregunta 3
         elif question == question_3:
+            
             #Respuesta del usuario
             print(show_question)
             answer = input(show_alphabet_soup_q3).lower()
@@ -577,6 +612,11 @@ def alphabet_soup(inventory):
                 player_answers.append(answer)
                 print(player_answers)
                 continue
+            
+            elif answer == "s":
+                inventory.add_obj(soup.reward)
+                break
+            
             else:
                 
                 print(f"""
@@ -590,9 +630,39 @@ def alphabet_soup(inventory):
         |--------------------------------------------------------------------------------|
         """)
                 continue  
-            
+    
+    
+#Creando el juego preguntas python como objeto
+def set_python_game():
+        
+    gamename = response_json[0]["objects"][1]["game"]["name"]
+    reward = response_json[0]["objects"][1]["game"]["award"]
+    rules = response_json[0]["objects"][1]["game"]["rules"]
+    requirement = response_json[0]["objects"][1]["game"]["requirement"]
+        
+    return Game(gamename, reward, rules, requirement)
 
-#JUEGOS PASILLO LABORATORIO
+python_g = set_python_game()
+    
+#Juego preguntas python
+def python_game(inventory):
+        
+    inventory.add_obj(python_g.reward)
+    print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        EXCELENTE! Has vencido al {python_g.gamename}
+        
+        Has obtenido {python_g.reward}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)
+        
+        
+                  
+
+#JUEGO PASILLO LABORATORIO
 
 def set_boolean_logic():
     
@@ -663,3 +733,146 @@ def boolean_logic(inventory):
         """)
             continue
         
+#JUEGOS SERVIDORES
+
+#Creando juego final un objeto
+def set_final_game():
+    
+    gamename = response_json[4]["objects"][0]["game"]["name"]
+    reward = response_json[4]["objects"][0]["game"]["award"]
+    rules = response_json[4]["objects"][0]["game"]["rules"]
+    requirement = response_json[4]["objects"][0]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+final = set_final_game()
+
+def final_game(inventory):
+    
+    answers = ["1", "2"]
+    answer = random.choice(answers)
+    
+    while True:
+        
+        player_answer = input(final_image)
+        
+        if player_answer == answer:
+            
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            FELICIDADES! HAS COMPLETADO EL DESAFÍO!
+            
+            Muchas gracias {player.avatar} por salvar a la Universidad 
+            una vez más            
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            break
+        
+        else:
+           print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            WRONG! Respuesta incorrecta
+            Inténtalo de nuevo          
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """) 
+           break
+        
+    
+
+#Creando juego de escoger un numero random como objeto  
+def set_choose_num():
+    
+    gamename = response_json[4]["objects"][2]["game"]["name"]
+    reward = response_json[4]["objects"][2]["game"]["award"]
+    rules = response_json[4]["objects"][2]["game"]["rules"]
+    requirement = response_json[4]["objects"][2]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+choose_num = set_choose_num()
+
+#Juego de escoger un numero random de python
+def choose_num_game(inventory):
+    
+    answer = random.randint(1, 15)
+    
+    show_question = f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+       Juguemos a la {choose_num.gamename}! 
+       ({choose_num.rules}) 
+       
+       Ingresa un número del 1 al 15
+                                
+    |  Si quieres una pista ingresa "p"                                              |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    ------> """
+    while True:
+        
+        player_answer = input(show_question)
+        
+        if int(player_answer) == answer:
+
+            inventory.add_obj(choose_num.reward)
+        
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            EXCELENTE! Respuesta correcta!
+            
+            Has obtenido {door_hallway.reward}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            break
+        
+        else:
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            WRONG! Respuesta incorrecta
+            
+            {door_hallway.rules}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            continue   
+
+#Creando palabraz mezcladas como un objeto
+def set_scrabble():
+    
+    gamename = response_json[4]["objects"][1]["game"]["name"]
+    reward = response_json[4]["objects"][1]["game"]["award"]
+    rules = response_json[4]["objects"][1]["game"]["rules"]
+    requirement = response_json[4]["objects"][1]["game"]["requirement"]
+    
+    return Game(gamename, reward, rules, requirement)
+
+scrabble = set_scrabble()
+
+def scrabble_game(inventory):
+    
+    inventory.add_obj(scrabble.reward)
+    
+    print(f"""
+|--------------------------------------------------------------------------------|
+|                                                                                |
+    EXCELENTE! Respuesta correcta!
+    
+    Has obtenido {scrabble.reward}               
+|                                                                                |
+|                                                                                |
+|--------------------------------------------------------------------------------|
+""")
+    
+
+alphabet_soup(inventory)

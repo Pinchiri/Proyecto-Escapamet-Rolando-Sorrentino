@@ -13,15 +13,19 @@ class Room():
     
     def plaza_rectorado(self):
         
+        message_middle = response_json[2]["objects"][0]["game"]["message_requirement"]
+        
         while True:
+            
+            has_requirements = False
             
             direction = input(plaza_rectorado_image).lower()
             
             if direction == "l":
                 print("\n Estas en el banco de la izquierda")
                 
-                quizizz(inventory)
-                continue
+                quizizz_game(inventory)
+
                 
             elif direction == "f":
                 Room.biblioteca(self)
@@ -30,7 +34,13 @@ class Room():
             elif direction == "m":
                 print("\n Estas en el Samán")
                 
-                saman_game(inventory)
+                if has_requirements:
+                    
+                    saman_game(inventory)
+                
+                else:
+                    print("\n", message_middle)
+                    print(" Necesitas ser el mejor jugador del mundo para vencer al Samán")
                 
             elif direction == "r":
                 print("\n Estas en el banco de la derecha")
@@ -46,14 +56,31 @@ class Room():
         
     def biblioteca(self):
         
+        message_left = response_json[1]["objects"][1]["game"]["message_requirement"]
+        message_right =response_json[1]["objects"][2]["game"]["message_requirement"]
+        
         while True:
-                
+            
+            has_math = False 
+            has_key = False
+            
+            if derivada.requirement in inventory.objects:
+                has_math = True
+            
+            if cryptogram.requirement in inventory.objects:
+                has_key = True
+            
             direction = input(biblioteca_image).lower()
             
             if direction == "l":
                 print("\n Estas en el mueble para sentarse")
-                continue
-            
+                
+                if has_math:
+                    derivada_game(inventory)
+                    
+                else:
+                    print("\n", message_left)
+                    
             elif direction == "m":
                 print("\n Estas en el mueble de libros")
                 
@@ -62,7 +89,13 @@ class Room():
                     
             elif direction == "r":
                 print("\n Estas en el gabetero")
-                continue
+                
+                if has_key:
+                    
+                    cryptogram_game(inventory)
+                
+                else:
+                    print("\n", message_right)
             
             elif direction == "f":
                 Room.plaza_rectorado(self)
@@ -145,24 +178,50 @@ class Room():
         
     def laboratorio(self):
         
+        message_left =  response_json[0]["objects"][1]["game"]["message_requirement"]
+        message_right = response_json[0]["objects"][2]["game"]["message_requirement"]
+        
         while True:
+            
+            has_cable = False
+            has_password = False
+            
+            if python_g.requirement in inventory.objects:  
+                has_cable = True
+            
+            if scrabble.reward in inventory.objects:
+                has_password = True
+            
                 
             direction = input(laboratorio_image).lower()
             
             if direction == "l":
                 print("\n Estas en la computadora de la izquierda")
-                pass
+                
+                if has_cable:
+                    
+                    python_g()
+                
+                else:
+                    print("\n", message_left)
             
             elif direction == "m":
                 print("\n Estas en la pizarra")
                 
                 alphabet_soup(inventory)
                 
+               
+                    
+                
                     
             elif direction == "r":
                 print("\n Estas en la computadora de la derecha")
                 
-                adivinanza_game(inventory)
+                if has_password:
+                    adivinanza_game(inventory)
+                    
+                else:
+                    print("\n", message_right)
                 
             elif direction == "f":
                 Room.servidores(self)
@@ -180,23 +239,37 @@ class Room():
     
     def servidores(self):
         
+        message_middle = requirement = response_json[4]["objects"][0]["game"]["message_requirement"]
+        
         while True:
-                
+            
+            has_final = False   
+            
+            if final.requirement in inventory.objects:
+                has_final = True
+            
             direction = input(servidores_image).lower()
             
             if direction == "l":
                 print("\n Estas en la estantería")
-                continue
+                
+                scrabble_game(inventory)
             
             elif direction == "m":
                 print("\n Estas en la puerta final")
                 
-                ahorcado_game(inventory)
+                if has_final:
+                    final_game(inventory)
+                    break
+                
+                else:
+                    print("\n", message_middle)
                 
                     
             elif direction == "r":
                 print("\n Estas en la basura")
-                continue
+                
+                choose_num_game(inventory)
 
             elif direction == "b":
                 Room.laboratorio(self)
