@@ -974,6 +974,7 @@ def scrabble_game(inventory):
         |                                                                                |
         |--------------------------------------------------------------------------------|
         """)
+            break
             
             
         for word in question_answer:
