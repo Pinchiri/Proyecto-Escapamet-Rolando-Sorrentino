@@ -17,8 +17,15 @@ class Room():
         
         while True:
             
-            has_requirements = False
+            has_titulo = False
+            has_mensaje = False
             
+            if saman.requirement[0] in inventory.objects:
+                has_titulo = True
+            
+            if saman.requirement[1] in inventory.objects:
+                has_mensaje = True
+                
             direction = input(plaza_rectorado_image).lower()
             
             if direction == "l":
@@ -34,7 +41,7 @@ class Room():
             elif direction == "m":
                 print("\n Estas en el Samán")
                 
-                if has_requirements:
+                if has_titulo and has_mensaje:
                     
                     saman_game(inventory)
                 

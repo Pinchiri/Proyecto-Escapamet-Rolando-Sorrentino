@@ -18,7 +18,11 @@ def main():
         
         elif choice == "2":
             player = login() #Función para loggearse
-            
+        
+        elif choice == "3":
+            print("\n   Gracias por jugar Escapamet!\n")
+            break   
+        
         else:
             print("\nIngreso Inválido\n")
             continue
@@ -34,6 +38,7 @@ def main():
         #Primera sala
             
         Room.biblioteca(biblioteca)
+        continue
          
             
             

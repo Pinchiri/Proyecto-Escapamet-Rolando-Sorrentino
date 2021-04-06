@@ -6,7 +6,7 @@ bienvenue = """
     |                                                                                |
     |                           1. CREAR NUEVO USUARIO                               |
     |                           2. USUARIO EXISTENTE                                 |           
-    |                                                                                |
+    |                           3. SALIR                                             |
     |                                                                                |
     |                                                                                |   
     |                                                                                |   

@@ -246,8 +246,7 @@ cryptogram = set_cryptogram()
 def cryptogram_game(inventory):
     
     question = response_json[1]["objects"][2]["game"]["questions"][random.randint(0,2)]
-    question_displayed = question["question"]
-    question_answer = question["answer"]
+    question_answer = question["question"]
     
     question_1 = response_json[1]["objects"][2]["game"]["questions"][0]["question"]   
     question_2 = response_json[1]["objects"][2]["game"]["questions"][1]["question"]
@@ -259,14 +258,14 @@ def cryptogram_game(inventory):
         Juguemos al {cryptogram.gamename}! 
         ({cryptogram.rules}),   
                  
-                    {question_displayed}           
+                               
                     
     |  Si quieres una pista ingresa "p"                                              |
     |                                                                                |
     |--------------------------------------------------------------------------------|
     ------> """
     
-    
+    inventory.add_obj(saman.requirement[1])
     
 #Creando ahorcado como un objeto    
 def set_ahorcado():
@@ -820,14 +819,14 @@ def choose_num_game(inventory):
         
         if int(player_answer) == answer:
 
-            inventory.add_obj(choose_num.reward)
+            inventory.add_obj(saman.requirement[0])
         
             print(f"""
         |--------------------------------------------------------------------------------|
         |                                                                                |
             EXCELENTE! Respuesta correcta!
             
-            Has obtenido {door_hallway.reward}               
+            Has obtenido {saman.requirement[0]}               
         |                                                                                |
         |                                                                                |
         |--------------------------------------------------------------------------------|
@@ -840,7 +839,7 @@ def choose_num_game(inventory):
         |                                                                                |
             WRONG! Respuesta incorrecta
             
-            {door_hallway.rules}               
+            {choose_num.rules}               
         |                                                                                |
         |                                                                                |
         |--------------------------------------------------------------------------------|
