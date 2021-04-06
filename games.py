@@ -498,7 +498,7 @@ def alphabet_soup(inventory):
     
     while True:
         
-        if player_answers == question_answers1 or player_answers == question_answers2 or player_answers == question_answers3:
+        if len(player_answers) == len(question_answers1) or len(player_answers) == len(question_answers2) or len(player_answers) == len(question_answers3):
                    
             Inventory.add_obj(inventory, soup.reward)
                 
@@ -860,16 +860,88 @@ scrabble = set_scrabble()
 
 def scrabble_game(inventory):
     
-    inventory.add_obj(scrabble.reward)
+    #Preguntas
+    question = response_json[4]["objects"][1]["game"]["questions"][random.randint(0,2)]
+    question_displayed = question["question"]
+    
+    question_answer = question["words"]
     
     print(f"""
-|--------------------------------------------------------------------------------|
-|                                                                                |
-    EXCELENTE! Respuesta correcta!
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+       Juguemos a la {scrabble.gamename}! 
+       ({scrabble.rules}) 
+       
+       {question_displayed}
+       Categoría: {question["category"]} 
+                                
+    |  Si quieres una pista ingresa "p"                                              |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)
     
-    Has obtenido {scrabble.reward}               
-|                                                                                |
-|                                                                                |
-|--------------------------------------------------------------------------------|
-""")
+    words = []
+    scrambbled = []
+    
+    while True:
+        
+        if len(words) == len(question_answer):
+            
+            inventory.add_obj(scrabble.reward)
+            
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            EXCELENTE! Has vencido al Scrabble!
+            
+            Has obtenido {scrabble.reward}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            
+            
+        for word in question_answer:
+            
+            length = len(word)
+            scramble = random.sample(word, length)
+            word_scrambbled = " ".join(scramble)
+            scrambbled.append(word_scrambbled)
+            
+        for word in scrambbled:
+            
+            print(f"""        |--------------------------------------------------------------------------------|                   
+                    {word}                                                                                  
+            |--------------------------------------------------------------------------------|
+            """)
+    
+        answer = input("\n  ------> ")
+
+        if answer in question_answer:
+            words.append(answer)
+            
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            EXCELENTE! Respuesta correcta!                      
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            continue
+        
+        else:
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            WRONG! Respuesta incorrecta
+            
+            {scrabble.rules}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+    
+   
+    
+   
     
