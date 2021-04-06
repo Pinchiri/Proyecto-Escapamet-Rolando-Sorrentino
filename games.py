@@ -341,12 +341,7 @@ def cryptogram_game(inventory):
     |--------------------------------------------------------------------------------|
     """)
             continue
-        
-cryptogram_game(inventory)   
-    
-    
-    
-    
+      
 #Creando ahorcado como un objeto    
 def set_ahorcado():
     
