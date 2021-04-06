@@ -891,7 +891,19 @@ def choose_num_game(inventory):
     while True:
         
         player_answer = input(show_question)
-        
+        while not player_answer.isnumeric():
+            print(f"""
+        |--------------------------------------------------------------------------------|
+        |                                                                                |
+            WRONG! Respuesta incorrecta
+            
+            {choose_num.rules}               
+        |                                                                                |
+        |                                                                                |
+        |--------------------------------------------------------------------------------|
+        """)
+            player_answer = input(show_question)
+            
         if int(player_answer) == answer:
 
             inventory.add_obj(saman.requirement[0])
