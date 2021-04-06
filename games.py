@@ -243,14 +243,26 @@ def set_cryptogram():
 
 cryptogram = set_cryptogram()
 
+#Juego Criptograma
 def cryptogram_game(inventory):
     
+    #Pregunta
     question = response_json[1]["objects"][2]["game"]["questions"][random.randint(0,2)]
-    question_answer = question["question"]
     
-    question_1 = response_json[1]["objects"][2]["game"]["questions"][0]["question"]   
-    question_2 = response_json[1]["objects"][2]["game"]["questions"][1]["question"]
-    question_3 = response_json[1]["objects"][2]["game"]["questions"][2]["question"]
+    #Respuesta
+    question_answer = question["question"].lower()
+    phrase = question_answer.replace("á", "a")
+    
+    question_1 = response_json[1]["objects"][2]["game"]["questions"][0]["question"].lower() 
+    question_2 = response_json[1]["objects"][2]["game"]["questions"][1]["question"].lower()
+    question_3 = response_json[1]["objects"][2]["game"]["questions"][2]["question"].lower()
+    
+    abecedary = "abcdefghijklmnñopqrstuvwxyz"
+    new_abecedary = ""
+    
+    desplaz = question["desplazamiento"]
+    
+    crypto = ""
     
     show_question = f"""
     |--------------------------------------------------------------------------------|
@@ -263,9 +275,77 @@ def cryptogram_game(inventory):
     |  Si quieres una pista ingresa "p"                                              |
     |                                                                                |
     |--------------------------------------------------------------------------------|
-    ------> """
+    """
     
-    inventory.add_obj(saman.requirement[1])
+    for l in abecedary:
+        pos = abecedary.index(l)
+        
+        new_pos = (pos + desplaz) % len(abecedary)
+        
+        new_abecedary += abecedary[new_pos]
+    
+    for l in question_answer:
+        
+        if l in abecedary:
+            pos = abecedary.index(l)
+            new_pos = (pos + desplaz) % len(abecedary)
+            crypto += abecedary[new_pos]
+        
+        else:
+            crypto += l
+    
+    print(show_question)
+    print(crypto)  
+         
+    if question_answer == question_1:
+            
+        print(criptograma_1)
+        
+    elif question_answer == question_2:
+            
+        print(criptograma_2)
+            
+    elif question_answer == question_3:
+            
+        print(criptograma_3) 
+           
+    while True:
+        
+        answer = input("\n    ------> ")
+        
+        if answer == phrase:
+            
+            inventory.add_obj(saman.requirement[1])
+            
+            print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        EXCELENTE! Has descifrado el criptograma!
+        
+        Has obtenido {cryptogram.reward}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)
+            break
+        
+        else:
+            print(f"""
+    |--------------------------------------------------------------------------------|
+    |                                                                                |
+        WRONG! Respuesta incorrecta
+        
+        {cryptogram.rules}               
+    |                                                                                |
+    |                                                                                |
+    |--------------------------------------------------------------------------------|
+    """)
+            continue
+        
+cryptogram_game(inventory)   
+    
+    
+    
     
 #Creando ahorcado como un objeto    
 def set_ahorcado():
