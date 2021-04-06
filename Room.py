@@ -207,7 +207,7 @@ class Room():
                 
                 if has_cable:
                     
-                    python_g()
+                    python_game(inventory)
                 
                 else:
                     print("\n", message_left)
